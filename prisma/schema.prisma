@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator zod {
+  provider                         = "zod-prisma-types"
+  output                           = "./generated/zod"
+  useMultipleFiles                 = false
+  createInputTypes                 = false
+  createModelTypes                 = true
+  addInputTypeValidation           = true
+  addIncludeType                   = false
+  addSelectType                    = false
+  createOptionalDefaultValuesTypes = true
+  createRelationValuesTypes        = true
+}
+
+model CarRoomParkingContract {
+  id                      Int    @id
+  carRoomId               Int
+  rent                    Int
+  rentTax                 Int
+  keyMoney                Int
+  keyMoneyTax             Int
+  contractProcedureFee    Int
+  contractProcedureFeeTax Int
+  azoomProcedureFee       Int
+  azoomProcedureFeeTax    Int
+  renewalFee              Int
+  renewalFeeTax           Int
+  referralFee             Int
+  referralFeeTax          Int
+  deposit                 Int
+  teppekiRenewalFee       Int
+  roomName                String /// @zod.string.min(1, {message: "Please enter a room name"})
+}
+
+model ParkingContract {
+  id                                Int      @id
+  parkingId                         Int
+  status                            Int /// @zod.custom.use(z.union([z.literal(-1), z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6), z.literal(7)]))
+  contractStartDate                 DateTime /// @zod.date({required_error: "Please select a date and time",invalid_type_error: "That's not a date!",})
+  monthToRenewContract              Int
+  teppekiContractStatus             Int /// @zod.custom.use(z.union([z.literal(-1), z.literal(0), z.literal(1), z.literal(null)]))
+  monthlyGuaranteeCommissionFeeRate Float
+}
+
+model Contractor {
+  id          Int    @id
+  email       String /// @zod.string.email({message: 'Invalid email'})
+  legalEntity Int /// @zod.custom.use(z.union([z.literal(1), z.literal(2)]))
+  name        String
+    repName                String?                 @map("rep_name") @db.VarChar(100)
+  nameKana               String?                 @map("name_kana") @db.VarChar(120)
+  repNameKana            String?                 @map("rep_name_kana") @db.VarChar(120)
+  zip                    String?                 @map("zip") @db.VarChar(10)
+  address                String?                 @map("address") @db.VarChar(100)
+  addressKana            String?                 @map("address_kana") @db.VarChar(120)
+  moveDate               DateTime?               @map("move_date") @db.Date()
+  mobileTel              String?                 @map("mobile_tel") @db.VarChar(20)
+  tel                    String?                 @map("tel") @db.VarChar(20)
+  fax                    String?                 @map("fax") @db.VarChar(20)
+  companyName            String?                 @map("company_name") @db.VarChar(100)
+  companyNameKana        String?                 @map("company_name_kana") @db.VarChar(120)
+  companyDepartmentName  String?                 @map("company_department_name") @db.VarChar(80)
+  annualIncome           Int?                    @map("annual_income")
+  serviceYears           Int?                    @map("service_years")
+  job                    String?                 @map("job") @db.VarChar(120)
+  companyZip             String?                 @map("company_zip") @db.VarChar(10)
+  companyAddress         String?                 @map("company_address") @db.VarChar(100)
+  companyAddressKana     String?                 @map("company_address_kana") @db.VarChar(120)
+  companyTel             String?                 @map("company_tel") @db.VarChar(20)
+  companyFax             String?                 @map("company_fax") @db.VarChar(20)
+  moveSchedule           Int?                    @map("move_schedule") @db.TinyInt()
+  moveZip                String?                 @map("move_zip") @db.VarChar(10)
+  moveAddress            String?                 @map("move_address") @db.VarChar(100)
+  moveAddressKana        String?                 @map("move_address_kana") @db.VarChar(120)
+  createdDatetime        DateTime                @default(now()) @map("created_datetime")
+  updatedDatetime        DateTime                @default(now()) @updatedAt @map("updated_datetime")
+  baseAddress            String?                 @map("base_address") @db.VarChar(100)
+}

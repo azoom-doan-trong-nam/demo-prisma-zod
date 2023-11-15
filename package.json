@@ -1,0 +1,24 @@
+{
+  "name": "carparking-one-zod",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "zod:build": "yarn prisma generate && yarn tsc",
+    "doc:build": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^6.2.0",
+    "@prisma/client": "5.5.2",
+    "prisma": "^5.5.2",
+    "typescript": "^5.2.2",
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4",
+    "zod-prisma-types": "^3.1.4"
+  }
+}

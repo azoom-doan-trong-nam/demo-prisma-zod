@@ -1,0 +1,177 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: My API
+  description: This is the API
+servers:
+  - url: v1
+components:
+  schemas: {}
+  parameters: {}
+paths:
+  /parking-contracts:
+    post:
+      description: Create a new parking contract
+      requestBody:
+        description: Create a new parking contract
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contractor:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                      format: email
+                    legalEntity:
+                      anyOf:
+                        - type: number
+                          enum:
+                            - 1
+                        - type: number
+                          enum:
+                            - 2
+                  required:
+                    - name
+                    - email
+                    - legalEntity
+                parkingContract:
+                  type: object
+                  properties:
+                    parkingId:
+                      type: integer
+                    status:
+                      anyOf:
+                        - type: number
+                          enum:
+                            - -1
+                        - type: number
+                          enum:
+                            - 0
+                        - type: number
+                          enum:
+                            - 1
+                        - type: number
+                          enum:
+                            - 2
+                        - type: number
+                          enum:
+                            - 3
+                        - type: number
+                          enum:
+                            - 4
+                        - type: number
+                          enum:
+                            - 5
+                        - type: number
+                          enum:
+                            - 6
+                        - type: number
+                          enum:
+                            - 7
+                    contractStartDate:
+                      type: string
+                      nullable: true
+                    monthToRenewContract:
+                      type: integer
+                    teppekiContractStatus:
+                      anyOf:
+                        - type: number
+                          enum:
+                            - -1
+                        - type: number
+                          enum:
+                            - 0
+                        - type: number
+                          enum:
+                            - 1
+                        - type: object
+                          nullable: true
+                          enum:
+                            - null
+                        - nullable: true
+                    monthlyGuaranteeCommissionFeeRate:
+                      type: number
+                  required:
+                    - parkingId
+                    - status
+                    - contractStartDate
+                    - monthToRenewContract
+                    - teppekiContractStatus
+                    - monthlyGuaranteeCommissionFeeRate
+                carRoomParkingContracts:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      carRoomId:
+                        type: integer
+                      rent:
+                        type: integer
+                      rentTax:
+                        type: integer
+                      keyMoney:
+                        type: integer
+                      keyMoneyTax:
+                        type: integer
+                      contractProcedureFee:
+                        type: integer
+                      contractProcedureFeeTax:
+                        type: integer
+                      azoomProcedureFee:
+                        type: integer
+                      azoomProcedureFeeTax:
+                        type: integer
+                      renewalFee:
+                        type: integer
+                      renewalFeeTax:
+                        type: integer
+                      referralFee:
+                        type: integer
+                      referralFeeTax:
+                        type: integer
+                      deposit:
+                        type: integer
+                      teppekiRenewalFee:
+                        type: integer
+                      roomName:
+                        type: string
+                        minLength: 1
+                    required:
+                      - carRoomId
+                      - rent
+                      - rentTax
+                      - keyMoney
+                      - keyMoneyTax
+                      - contractProcedureFee
+                      - contractProcedureFeeTax
+                      - azoomProcedureFee
+                      - azoomProcedureFeeTax
+                      - renewalFee
+                      - renewalFeeTax
+                      - referralFee
+                      - referralFeeTax
+                      - deposit
+                      - teppekiRenewalFee
+                      - roomName
+              required:
+                - contractor
+                - parkingContract
+                - carRoomParkingContracts
+      responses:
+        "200":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Created
+                required:
+                  - message
